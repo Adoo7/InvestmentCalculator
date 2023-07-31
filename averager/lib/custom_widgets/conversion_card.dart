@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ConversionCard extends StatefulWidget {
@@ -22,6 +23,18 @@ class ConversionCard extends StatefulWidget {
 }
 
 class _ConversionCardState extends State<ConversionCard> {
+  double cardHeight = 300;
+  double cardWidth = double.infinity;
+
+  InputDecoration inputDecoration(text) {
+    return InputDecoration(
+      filled: true,
+      fillColor: Colors.cyanAccent,
+      border: InputBorder.none,
+      hintText: text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController buyPrice = widget.buyPriceController;
@@ -35,80 +48,62 @@ class _ConversionCardState extends State<ConversionCard> {
       margin: const EdgeInsets.symmetric(horizontal: 60),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Colors.blue.shade100,
+        color: CupertinoColors.systemCyan,
       ),
-      height: 180,
-      child: Row(
+      height: cardHeight,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 100,
-                height: 60,
-                child: TextField(
-                  controller: buyPrice,
-                  onChanged: (text) {
-                    numberChanged();
-                  },
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Buy Price',
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 100,
-                height: 60,
-                child: TextField(
-                  onTap: () {
-                    quantitySelected();
-                  },
-                  onChanged: (text) {
-                    numberChanged();
-                  },
-                  controller: QTY,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Share QTY',
-                  ),
-                ),
-              ),
-            ],
+          SizedBox(
+            width: cardWidth,
+            height: 60,
+            child: TextField(
+              cursorColor: Colors.cyanAccent,
+              controller: buyPrice,
+              onChanged: (text) {
+                numberChanged();
+              },
+              keyboardType: TextInputType.number,
+              decoration: inputDecoration('Buy Price'),
+            ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                width: 100,
-                height: 60,
-                child: TextField(
-                  onChanged: (text) {
-                    numberChanged();
-                  },
-                  controller: sellPrice,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Current Price',
-                  ),
-                ),
+          SizedBox(
+            width: cardWidth,
+            height: 60,
+            child: TextField(
+              onTap: () {
+                quantitySelected();
+              },
+              onChanged: (text) {
+                numberChanged();
+              },
+              controller: QTY,
+              keyboardType: TextInputType.number,
+              decoration: inputDecoration('Quantity'),
+            ),
+          ),
+          SizedBox(
+            width: cardWidth,
+            height: 60,
+            child: TextField(
+              onChanged: (text) {
+                numberChanged();
+              },
+              controller: sellPrice,
+              keyboardType: TextInputType.number,
+              decoration: inputDecoration('Sell Price'),
+            ),
+          ),
+          SizedBox(
+            width: cardWidth,
+            height: 30,
+            child: Center(
+              child: Text(
+                profit,
+                style: const TextStyle(fontSize: 22),
+                textAlign: TextAlign.center,
               ),
-              SizedBox(
-                width: 100,
-                height: 60,
-                child: Center(
-                  child: Text(
-                    profit,
-                    style: const TextStyle(fontSize: 22),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),
