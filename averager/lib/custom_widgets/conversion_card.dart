@@ -24,15 +24,20 @@ class ConversionCard extends StatefulWidget {
 
 class _ConversionCardState extends State<ConversionCard> {
   double cardHeight = 300;
-  double cardWidth = double.infinity;
+  double cardWidth = 140;
 
   InputDecoration inputDecoration(text) {
     return InputDecoration(
-      filled: true,
-      fillColor: Colors.cyanAccent,
-      border: InputBorder.none,
-      hintText: text,
-    );
+        filled: true,
+        fillColor: const Color(0xFFD2F4F6),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 0,
+            style: BorderStyle.none,
+          ),
+        ),
+        hintText: text,
+        hintStyle: const TextStyle(color: Colors.black));
   }
 
   @override
@@ -45,10 +50,10 @@ class _ConversionCardState extends State<ConversionCard> {
     String profit = widget.profit;
     return Container(
       padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.symmetric(horizontal: 60),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: CupertinoColors.systemCyan,
+        color: const Color(0xFF7EC2FF),
       ),
       height: cardHeight,
       child: Column(
@@ -58,7 +63,6 @@ class _ConversionCardState extends State<ConversionCard> {
             width: cardWidth,
             height: 60,
             child: TextField(
-              cursorColor: Colors.cyanAccent,
               controller: buyPrice,
               onChanged: (text) {
                 numberChanged();

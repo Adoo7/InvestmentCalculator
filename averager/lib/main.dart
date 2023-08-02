@@ -14,8 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+          primarySwatch: Colors.lightBlue,
+          inputDecorationTheme: const InputDecorationTheme(
+              hintStyle: TextStyle(color: Colors.white54))),
       home: const MainView(title: 'Flutter Demo Home Page'),
     );
   }
