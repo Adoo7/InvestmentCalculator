@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:averager/custom_widgets/conversion_card.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class MainView extends StatefulWidget {
   const MainView({super.key, required this.title});
@@ -12,7 +14,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  Color textColor = Color(0xFFFFFFFF);
+  Color textColor = const Color(0xFFFFFFFF);
 
   int denomination = 3; //number of digits after decimal point
 
@@ -101,6 +103,27 @@ class _MainViewState extends State<MainView> {
     return (realProfit1, realProfit2);
   }
 
+  void getRates(List<String> arguments) async {
+    // This example uses the Google Books API to search for books about http.
+    // https://developers.google.com/books/docs/overview
+    var url = Uri.http(
+      'api.exchangeratesapi.io',
+      '/v1/latest',
+      {'access_key': '06289703e4e5058f94f343ce3d445ae2'},
+    );
+    //USD EUR HKD BHD SAR AED GBP
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse =
+          convert.jsonDecode(response.body) as Map<String, dynamic>;
+      var itemCount = jsonResponse;
+      print(itemCount['rates']['BHD']);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
   @override
   void dispose() {
     _buyPriceUSDController.dispose();
@@ -116,6 +139,11 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          getRates(['arguments']);
+        },
+      ),
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFF20004f),
       body: Column(
