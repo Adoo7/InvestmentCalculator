@@ -58,7 +58,15 @@ class _ConversionCardState extends State<ConversionCard> {
       height: cardHeight,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          const Text(
+            'Buy Price',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 12,
+            ),
+          ),
           SizedBox(
             width: cardWidth,
             height: 60,
@@ -69,6 +77,13 @@ class _ConversionCardState extends State<ConversionCard> {
               },
               keyboardType: TextInputType.number,
               decoration: inputDecoration('Buy Price'),
+            ),
+          ),
+          const Text(
+            'Quantity',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 12,
             ),
           ),
           SizedBox(
@@ -84,6 +99,13 @@ class _ConversionCardState extends State<ConversionCard> {
               controller: QTY,
               keyboardType: TextInputType.number,
               decoration: inputDecoration('Quantity'),
+            ),
+          ),
+          const Text(
+            'Sell Price',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 12,
             ),
           ),
           SizedBox(

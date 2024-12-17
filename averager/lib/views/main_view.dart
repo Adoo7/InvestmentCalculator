@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:averager/custom_widgets/conversion_card.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import 'package:averager/custom_widgets/conversion_card.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+
+final formatCurrency = new NumberFormat.simpleCurrency();
 
 class MainView extends StatefulWidget {
   const MainView({super.key, required this.title});
@@ -59,14 +62,31 @@ class _MainViewState extends State<MainView> {
     print("Number changed");
 
     //convert text into doubles for calculation
-    double buyPrice1 = double.parse(buyPriceController1.text);
-    double sellPrice1 = double.parse(sellPriceController1.text);
+    double buyPrice1 = buyPriceController1.text.isNotEmpty
+        ? double.parse(buyPriceController1.text)
+        : 0.0;
+    double sellPrice1 = sellPriceController1.text.isNotEmpty
+        ? double.parse(sellPriceController1.text)
+        : 0.0;
     double quantity;
     double investPrice1;
 
     if (quantityFieldSelected) {
       //calculate quantity from investment price and buy price
-      quantity = double.parse(quantityController.text);
+      if (quantityController.text.isNotEmpty) {
+        var tryQuantity = double.tryParse(quantityController.text);
+        quantity = tryQuantity ?? 0.0;
+        if (quantity.isInfinite || quantity.isNaN) {
+          quantity = 0.0;
+        }
+      } else {
+        quantity = 0.0;
+      }
+      if (buyPrice1 != 0.0) {
+        investPrice1 = buyPrice1 * quantity;
+      } else {
+        investPrice1 = 0.0;
+      }
       investPrice1 = buyPrice1 * quantity;
       print("CHANGE IN QUANTITY FIELD");
     } else {
@@ -162,6 +182,7 @@ class _MainViewState extends State<MainView> {
                     "USD",
                     style: TextStyle(color: textColor),
                   ),
+                  const SizedBox(height: 20),
                   ConversionCard(
                     buyPriceController: _buyPriceUSDController,
                     sellPriceController: _sellPriceUSDController,
@@ -177,7 +198,7 @@ class _MainViewState extends State<MainView> {
                           realProfit1: card1Profit,
                           realProfit2: card2Profit,
                           quantityController: _quantityController,
-                          conversionRate: 0.376);
+                          conversionRate: 0.38);
                       setState(() {
                         card1Profit = profit1;
                         card2Profit = profit2;
@@ -186,6 +207,12 @@ class _MainViewState extends State<MainView> {
                     profit: card1Profit,
                     onQuantitySelected: _quantitySelected,
                   ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Initial investment",
+                    style: TextStyle(fontSize: 12, color: textColor),
+                  ),
+                  const SizedBox(height: 5),
                   SizedBox(
                     width: 140,
                     height: 60,
@@ -205,7 +232,7 @@ class _MainViewState extends State<MainView> {
                             investPriceController2: _investPriceBHDController,
                             realProfit2: card2Profit,
                             quantityController: _quantityController,
-                            conversionRate: 0.376);
+                            conversionRate: 0.38);
                         setState(() {
                           card1Profit = profit1;
                           card2Profit = profit2;
@@ -229,6 +256,7 @@ class _MainViewState extends State<MainView> {
                     "BHD",
                     style: TextStyle(color: textColor),
                   ),
+                  const SizedBox(height: 20),
                   ConversionCard(
                     buyPriceController: _buyPriceBHDController,
                     sellPriceController: _sellPriceBHDController,
@@ -253,6 +281,12 @@ class _MainViewState extends State<MainView> {
                     profit: card2Profit,
                     onQuantitySelected: _quantitySelected,
                   ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Initial investment",
+                    style: TextStyle(fontSize: 12, color: textColor),
+                  ),
+                  const SizedBox(height: 5),
                   SizedBox(
                     width: 140,
                     height: 60,
